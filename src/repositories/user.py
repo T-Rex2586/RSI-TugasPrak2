@@ -1,0 +1,30 @@
+from sqlmodel import Session, select
+from src.database.model.models import User
+
+class UserRepository:
+
+    def get_all(self, db: Session):
+        return db.exec(select(User)).all()
+        
+    def get_by_id(self, db: Session, user_id: int):
+        return db.get(User, user_id)
+    
+    def create(self, db: Session, user: User):
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        return user
+    
+    def update(self, db: Session, user: User):
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        return user
+    
+    def delete(self, db: Session, user_id: int):
+        user = db.get(User, user_id)
+        if user:
+            db.delete(user)
+            db.commit()
+            return True
+        return False
