@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from src.routes.event import router as event_router
-from src.routes.user_routes import router as user_router
+from src.routes.event_route import router as event_router
+from src.routes.user_route import router as user_router
 
 api_router = APIRouter()
 
