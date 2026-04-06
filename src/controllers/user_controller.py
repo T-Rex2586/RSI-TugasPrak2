@@ -1,22 +1,23 @@
-from fastapi import Depends
 from sqlmodel import Session
-from src.services.user import UserService
-from src.database.connection import get_session
-from src.dto.user import UserCreate
+from src.services.user_service import UserService
 
-service = UserService()
 
-def get_users(db: Session = Depends(get_session)):
-    return service.get_users(db)
+class UserController:
 
-def get_user(user_id: int, db: Session = Depends(get_session)):
-    return service.get_user(db, user_id)
+    def __init__(self):
+        self.service = UserService()
 
-def create_user(data: UserCreate, db: Session = Depends(get_session)):
-    return service.create_user(db, data)
+    def get_all(self, session: Session):
+        return self.service.get_all_users(session)
 
-def update_user(user_id: int, data: UserCreate, db: Session = Depends(get_session)):
-    return service.update_user(db, user_id, data)
+    def get_by_id(self, user_id: int, session: Session):
+        return self.service.get_user(session, user_id)
 
-def delete_user(user_id: int, db: Session = Depends(get_session)):
-    return service.delete_user(db, user_id)
+    def create(self, user_data, session: Session):
+        return self.service.create_user(session, user_data)
+
+    def update(self, user_id: int, user_data, session: Session):
+        return self.service.update_user(session, user_id, user_data)
+
+    def delete(self, user_id: int, session: Session):
+        return self.service.delete_user(session, user_id)
